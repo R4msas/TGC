@@ -4,18 +4,18 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 public class exerc {
-    private static int n;
-    private static int m;
-    private static int[]saida;
-    private static int[]destino;
-    private static int[]vertice;
+    public static int n;
+    public static int m;
+    public static int[]saida;
+    public static int[]destino;
+    public static int[]vertice;
 public static void main(String[] args) throws Exception{
     Scanner sc=new Scanner(System.in);
     System.out.println("Informe o nome do arquivo:");//presume-se que há um cabeçalho como nos arquivos teste, com os números de m e n
     //String nomeArq=sc.nextLine();
     String nomeArq="g1.txt";
     lerArquivo(nomeArq);
- //   ordena();
+    //ordena();
     geraForwardStar();
     consultas();
     sc.close();
@@ -144,16 +144,17 @@ public static void busca(int v)
     int sucessores=vertice[v]-vertice[v-1];
     System.out.println("Grau de saída: "+sucessores);
     System.out.print("Lista de Sucessores: ");
-    imprimeArray(destino,v-1,v-1+sucessores);
+    imprimeArray(vertice[v-1]-1,sucessores);
     System.out.println("Grau de entrada "+predecessores.size());
     System.out.print("Lista de predecessores: ");
     imprimeLinkedList(predecessores);
 }
-public static void imprimeArray(int[] array,int inicio, int fim)
+public static void imprimeArray(int inicio, int repeticoes)
 {
-    while(inicio<fim)
+    while(repeticoes>0)
     {
-        System.out.print(array[inicio]+", ");
+        System.out.print(destino[inicio]+", ");
+        repeticoes--;
         inicio++;
     }
     System.out.println("\n");
