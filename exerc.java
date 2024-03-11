@@ -2,7 +2,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Scanner;
-
+/**
+ * Foi feita a escolha pelo forward star de sucessores, como é necessário a presença dos predecessores também, guarda-se mais um vetor de inteiros de tamanho m para tal fim. 
+ */
 public class exerc {
     public static int n;
     public static int m;
@@ -71,58 +73,21 @@ public class exerc {
      * Usa uma implementação do quicksort para ordenar os pares de coordenadas
      * utilizando dois vetores de inteiros
      */
-    public static void ordena() {
-        ordena(0, m - 1);
-    }
-
-    public static void ordena(int baixo, int alto) {
-        if (baixo < alto) {
-            int[] indicesPivo = particionar(baixo, alto);
-            ordena(baixo, indicesPivo[0] - 1);
-            ordena(indicesPivo[1] + 1, alto);
-        }
-    }
-
-    public static int[] particionar(int baixo, int alto) {
-        int pivo = saida[alto];
-        int i = baixo - 1;
-        int j = baixo;
-
-        while (j < alto) {
-            if (saida[j] < pivo) {
-                i++;
-                trocar(i, j);
-            } else if (saida[j] == pivo) {
-                // Não faz nada se saida[j] == pivo
-            }
-            j++;
-        }
-
-        trocar(i + 1, alto);
-
-        // Encontrar a faixa de índices com valores iguais ao pivo
-        int inicioIguais = i + 1;
-        int fimIguais = i + 1;
-
-        for (int k = i; k >= baixo; k--) {
-            if (saida[k] == pivo) {
-                inicioIguais = k;
-            } else {
-                break;
+    public static void ordena()
+    {
+        int j,i;
+        for(int c=1;c<m-1;c++)
+        {
+            i=c;
+            j=c+1;
+            while(saida[i]>saida[j]&&i>=0)
+            {
+                trocar(i,j);
+                i--;
+                j--;
             }
         }
-
-        for (int k = i + 2; k <= alto; k++) {
-            if (saida[k] == pivo) {
-                fimIguais = k;
-            } else {
-                break;
-            }
-        }
-
-        return new int[] { inicioIguais, fimIguais };
     }
-
     public static void trocar(int i, int j) {
         int temp = saida[i];
         saida[i] = saida[j];
