@@ -70,8 +70,7 @@ public class exerc {
     }
 
     /**
-     * Usa uma implementação do quicksort para ordenar os pares de coordenadas
-     * utilizando dois vetores de inteiros
+     * Usa como ordenação um insertion sort
      */
     public static void ordena()
     {
