@@ -1,28 +1,28 @@
-import java.util.Random;
-import java.util.Scanner;
 import java.io.File;
-import java.io.RandomAccessFile;
-import java.util.ArrayList;
-
+import java.util.LinkedList;
+import java.util.Random;
 public class CriarGrafo {
     public static void main(String[] args) throws Exception {
-        criar();
-        /*
-         * File arq=new File("c1");
-         * ForwardStar fs=new ForwardStar(arq);
-         * fs.consultas();
-         */
+        //criar();
+        
+        File arq=new File("a1");
+        ForwardStar fs=new ForwardStar(arq);
+        Graph G=new Graph(fs);
+        Biconnected bi=new Biconnected(G);
+        bi.iterarGrafo(G);
+        
+
     }
 
     public static void criar() throws Exception {
-        int a = 100, b = 1000, c = 10000, d = 100000;
+        /* int a = 100, b = 1000, c = 10000, d = 100000;
         for (int i = 1; i <= 10; i++) {
             criar("a" + i, a, 1);
             criar("b" + i, b, 1.5);
             criar("c" + i, c, 1.5);
             criar("d" + i, d, 2);
-        }
-        // criar("a"+1,100);
+        }  */
+        criar("a"+1,100000, 2);
 
     }
 /**
@@ -52,149 +52,26 @@ public class CriarGrafo {
 
             }
         }
+        certificaConexao(la);
 
         la.gerarArquivo(nomeArquivo);
     }
+    private static void certificaConexao(ListaAdjacencia la){
+        BuscaLargura bl=new BuscaLargura(la.m);
+        LinkedList<Integer> raizes=bl.raizesBusca(la);
+        int raiz=raizes.poll();
+
+        while(raizes.size()>=1)
+        {
+            la.inserir(raiz, raizes.poll());
+        }
+
+
+    }
 
 }
 
-/**
- * lista de adjacência dinâmica, usa-se esta na construção do grafo somente.
- */
-class ListaAdjacencia {
-    int m;
-    int n;
-    Vertice[] vertices;
-    /**
-     * único construtor desta classe, n inicializado em zero
-     * @param m
-     */
-    ListaAdjacencia(int m) {
-        this.m = m;
-        n = 0;
-        vertices = new Vertice[m];
-        for (int c = 0; c < m; c++) {
-            vertices[c] = new Vertice();
-        }
-    }
-/**
- * Ao inserir a aresta, verifica se esta já existe, caso exista, ignora. Ao inserir aumenta em um o número de n. Por ser um grafo não direcionado, ao adicionar o adjacente w na lista de v, também adiciona v na lista de w.
- * @param v 
- * @param w
- * @return
- */
-    public boolean inserirAresta(int v, int w) {
-        if (vertices[v - 1].adjacentes.contains(w)) {
-            return false;
-        } else {
-            inserir(v, w);
-            inserir(w, v);
-            n++;
-            return true;
-        }
-    }
 
-    public void inserir(int v, int w) {
-        vertices[v - 1].adjacentes.add(w);
-    }
 
-    /**Escreve o arquivo primeiro com o valor de m, depois com o valor de n; 
-     * Escreverá m+1 valores, do primeiro vetor do Forward Star
-     * Depois escreverá n valores para o vetor de chegada do Forward Star
-     * @param nomeArquivo nome do arquivo que será salvo
-     * @throws Exception
-     */
-    public void gerarArquivo(String nomeArquivo) throws Exception {
-        File arq = new File(nomeArquivo);
-        RandomAccessFile raf = new RandomAccessFile(arq, "rw");
-        raf.writeInt(m);
-        raf.writeInt(n);
-        raf.writeInt(1);
-        int anterior = 1;
-        for (int c = 0; c < m; c++) {
-            anterior += vertices[c].adjacentes.size();
-            raf.writeInt(anterior);
-        }
-        for (int c = 0; c < m; c++) {
-            int i = vertices[c].adjacentes.size();
 
-            for (int j = 0; j < i; j++) {
-                raf.writeInt(vertices[c].adjacentes.get(j));
-            }
-        }
-        raf.close();
 
-    }
-}
-
-class Vertice {
-    ArrayList<Integer> adjacentes;
-
-    Vertice() {
-        adjacentes = new ArrayList<Integer>();
-    }
-}
-
-class ForwardStar {
-    int m;
-    int n;
-    int[] saida;
-    int[] destino;
-/**
- * Lê o arquivo e gera o Forward Star. 
- * @param arq
- * @throws Exception
- */
-    ForwardStar(File arq) throws Exception {
-        RandomAccessFile raf = new RandomAccessFile(arq, "r");
-        m = raf.readInt();
-        n = raf.readInt();
-        saida = new int[m + 1];
-        destino = new int[n];
-        for (int c = 0; c < m + 1; c++) {
-            saida[c] = raf.readInt();
-        }
-        for (int c = 0; c < n; c++) {
-            destino[c] = raf.readInt();
-        }
-        raf.close();
-    }
-/**
- * Método para debug inicialmente, imprime os sucessores do vértice seleciano
- * @param v
- */
-    public void busca(int v) {
-        int sucessores = saida[v] - saida[v - 1];
-        System.out.println("Grau de saída: " + sucessores);
-        System.out.print("Lista de Sucessores: ");
-        imprimeArray(saida[v - 1] - 1, sucessores);
-    }
-
-    public void imprimeArray(int inicio, int repeticoes) {
-        while (repeticoes > 0) {
-            System.out.print(destino[inicio] + ", ");
-            repeticoes--;
-            inicio++;
-        }
-        System.out.println("\n");
-    }
-
-    public void consultas() {
-        int v = 1;
-        Scanner sc = new Scanner(System.in);
-        while (v != 0) {
-
-            System.out.println("Informe o vertice que deseja pesquisar ou 0 caso queira sair:");
-            v = Integer.parseInt(sc.nextLine());
-            if (v != 0 && v > 0) {
-                if (v < m) {
-                    busca(v);
-                } else {
-                    System.out.println("Vértice não existe");
-                }
-            }
-        }
-
-        sc.close();
-    }
-}
