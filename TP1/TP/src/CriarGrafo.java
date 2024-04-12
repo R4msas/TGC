@@ -3,13 +3,14 @@ import java.util.LinkedList;
 import java.util.Random;
 public class CriarGrafo {
     public static void main(String[] args) throws Exception {
-        //criar();
+        criar();
         
         File arq=new File("a1");
         ForwardStar fs=new ForwardStar(arq);
         Graph G=new Graph(fs);
         Biconnected bi=new Biconnected(G);
         bi.iterarGrafo(G);
+        
         
 
     }
@@ -22,7 +23,7 @@ public class CriarGrafo {
             criar("c" + i, c, 1.5);
             criar("d" + i, d, 2);
         }  */
-        criar("a"+1,100000, 2);
+        criar("a"+1,100, 5);
 
     }
 /**
@@ -36,12 +37,12 @@ public class CriarGrafo {
         Random rd = new Random();
         ListaAdjacencia la = new ListaAdjacencia(m);
         double nRoot=(double)1/enesimaRaiz;
-        for (int c = 1; c <= m; c++) {
+            for (int c = 1; c <= m; c++) {
             int numArestas=rd.nextInt(1,m+1);
             double bound=Math.pow(numArestas, nRoot);
             numArestas=(int)bound;
             int aresta;
-            while (numArestas >= 0) {
+            while (numArestas > 0&&la.vertices[c-1].adjacentes.size()<c) {
                 aresta = rd.nextInt(1, m + 1);
                 while (aresta == c) {
                     aresta = rd.nextInt(1, m + 1);

@@ -61,7 +61,7 @@
 
     public void iterarGrafo(Graph G)
     {
-        for (int v = 0; v < G.V(); v++)
+            for (int v = 0; v < G.V(); v++)
             if (this.isArticulation(v)) System.out.println(v);
     }
 }
