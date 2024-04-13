@@ -10,7 +10,17 @@ public class CriarGrafo {
         Graph G=new Graph(fs);
         Biconnected bi=new Biconnected(G);
         bi.iterarGrafo(G);
-        
+        for(int c=1; c<fs.m;c++)
+        {
+            for(int j=2; j<fs.m;j++)
+            {
+            CaminhoDisjunto cd=new CaminhoDisjunto(fs, c, j);
+              if(cd.procuraCaminhosDisjuntos()!=null)
+                {
+                    System.out.println("existe caminho disjunto entre "+c+" e "+j);
+                }
+            } 
+        }
         
 
     }
@@ -23,7 +33,7 @@ public class CriarGrafo {
             criar("c" + i, c, 1.5);
             criar("d" + i, d, 2);
         }  */
-        criar("a"+1,100, 5);
+        criar("a"+1,100, 10);
 
     }
 /**
