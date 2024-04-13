@@ -33,7 +33,7 @@ public class CriarGrafo {
             criar("c" + i, c, 1.5);
             criar("d" + i, d, 2);
         }  */
-        criar("a"+1,100, 10);
+        criar("a"+1,100, 5);
 
     }
 /**
@@ -48,14 +48,17 @@ public class CriarGrafo {
         ListaAdjacencia la = new ListaAdjacencia(m);
         double nRoot=(double)1/enesimaRaiz;
             for (int c = 1; c <= m; c++) {
-            int numArestas=rd.nextInt(1,m+1);
+            int numArestas=rd.nextInt(m);
+            numArestas+=1;
             double bound=Math.pow(numArestas, nRoot);
             numArestas=(int)bound;
             int aresta;
             while (numArestas > 0&&la.vertices[c-1].adjacentes.size()<c) {
-                aresta = rd.nextInt(1, m + 1);
+                aresta = rd.nextInt(m);
+                aresta+=1;
                 while (aresta == c) {
-                    aresta = rd.nextInt(1, m + 1);
+                    aresta = rd.nextInt(m);
+                    aresta+=1;
                 }
 
                 la.inserirAresta(c, aresta);
