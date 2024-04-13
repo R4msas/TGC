@@ -21,6 +21,7 @@ public class BuscaLargura {
         int pos=0;
         while(pos<l.length)
             {
+                
                 if(l[pos]==0)
                 {
                 t++;
