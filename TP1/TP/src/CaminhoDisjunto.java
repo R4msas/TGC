@@ -17,13 +17,14 @@ public class CaminhoDisjunto {
 
     public void procuraTodosOsCaminhosAciclicos() {
 
-        int[] sucessores = fs.listaSucessores(verticeOrigem);
+      /*   int[] sucessores = fs.listaSucessores(verticeOrigem);
         int grauSaida = sucessores.length;
         for (int c = 0; c < grauSaida; c++) {
             {
-                procuraTodosOsCaminhosAciclicos(sucessores[c], new ArrayList<Integer>());
+                
             }
-        }
+        } */
+        procuraTodosOsCaminhosAciclicos(verticeOrigem, new ArrayList<Integer>());
         if (caminhos.size() > 1) {
 
             iteraPelosCaminhosEncontrados();
@@ -53,13 +54,13 @@ public class CaminhoDisjunto {
     }
 
     private void procuraTodosOsCaminhosAciclicos(int vertice, ArrayList<Integer> caminhoAnterior) {
-
+        ArrayList<Integer> caminhoAtual = new ArrayList<Integer>(caminhoAnterior);
+        caminhoAtual.add(vertice);
         if (vertice == verticeDestino) {
             caminhos.add(caminhoAnterior);
 
-        } else if (caminhoAnterior.contains(vertice) == false && vertice != verticeOrigem) {
-            ArrayList<Integer> caminhoAtual = new ArrayList<Integer>(caminhoAnterior);
-            caminhoAtual.add(vertice);
+        } else if (caminhoAtual.contains(vertice) == false) {
+            
             int[] sucessores = fs.listaSucessores(vertice);
             int grauSaida = sucessores.length;
             for (int c = 0; c < grauSaida; c++) {

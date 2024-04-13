@@ -30,6 +30,12 @@ public class ForwardStar {
  * Método para debug inicialmente, imprime os sucessores do vértice seleciano
  * @param v
  */
+    public ForwardStar() {
+        m=11;
+        n=30;
+        saida=new int[]{1,3,6,10,13,16,19,22,25,27,29,31};
+        destino=new int[]{2,3,1,3,4,1,2,5,6,2,7,8,3,6,9,3,5,9,4,8,10,4,7,11,5,6,7,11,10,8};
+    }
     public void busca(int v) {
         int sucessores = saida[v] - saida[v - 1];
         System.out.println("Grau de saída: " + sucessores);
