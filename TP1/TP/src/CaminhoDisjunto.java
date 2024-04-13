@@ -2,53 +2,71 @@ import java.util.ArrayList;
 
 public class CaminhoDisjunto {
     ForwardStar fs;
-    int verticeSaida;
-    int verticeChegada;
+    int verticeOrigem;
+    int verticeDestino;
     ArrayList<ArrayList<Integer>> caminhos;
-    ArrayList<ArrayList<Integer>> solucao;
+    ArrayList<Integer> solucao;
 
-    public CaminhoDisjunto(ForwardStar fs, int verticeSaida, int verticeChegada) {
+    public CaminhoDisjunto(ForwardStar fs, int verticeOrigem, int verticeDestino) {
         this.fs = fs;
-        this.verticeSaida = verticeSaida;
-        this.verticeChegada = verticeChegada;
+        this.verticeOrigem = verticeOrigem;
+        this.verticeDestino = verticeDestino;
         caminhos = new ArrayList<ArrayList<Integer>>();
+        solucao = new ArrayList<>();
     }
 
-    public ArrayList<Integer> procuraCaminhosDisjuntos() {
-        int ponteiro = fs.saida[verticeSaida - 1];
+    public void procuraTodosOsCaminhosAciclicos() {
 
-        procuraCaminhosDisjuntos(ponteiro, new ArrayList<Integer>());
-        if (caminhos.size() > 1) {
-         /*    ArrayList <Integer> conjunto=new ArrayList<>(caminhos.get(1));
-            caminhos.get(0).removeFirst();
-            conjunto.removeLast();
-            for(int c=0;c<caminhos.get(0).size();c++)
-            {  
-                conjunto.add(caminhos.get(0).get(c));
-                
+        int[] sucessores = fs.listaSucessores(verticeOrigem);
+        int grauSaida = sucessores.length;
+        for (int c = 0; c < grauSaida; c++) {
+            {
+                procuraTodosOsCaminhosAciclicos(sucessores[c], new ArrayList<Integer>());
             }
-            return conjunto; */
-
         }
-        private ArrayList<Integer>
-        return null;
+        if (caminhos.size() > 1) {
+
+            iteraPelosCaminhosEncontrados();
+        }
     }
 
-    private void procuraCaminhosDisjuntos(int vertice, ArrayList<Integer> caminhoAnterior) {
-        ArrayList<Integer> caminhoAtual = new ArrayList<Integer>(caminhoAnterior);
-        caminhoAtual.add(vertice);
-        if (vertice == verticeChegada) {
-            caminhos.add(caminhoAtual);
+    private void iteraPelosCaminhosEncontrados() {
+        for (int c = 0; c < caminhos.size() - 1; c++) {
+            for (int j = c + 1; j < caminhos.size(); j++) {
+                verificaSeSaoCaminhosDisjuntos(caminhos.get(c), caminhos.get(j));
+            }
+        }
 
-        } else if (caminhoAnterior.contains(vertice)) {
-            caminhoAtual = null;
-        } else {
+    }
 
-            int grauSaida = fs.saida[verticeSaida] - fs.saida[verticeSaida - 1];
-            int ponteiro = fs.saida[verticeSaida - 1];
+    private void verificaSeSaoCaminhosDisjuntos(ArrayList<Integer> a, ArrayList<Integer> b) {
+        for (int c = 0; c < a.size(); c++) {
+            if (b.contains(a.get(c))) {
+                return;
+            }
+        }
+        solucao = new ArrayList<>(a);
+        for (int c = 0; c < b.size(); c++) {
+            solucao.add(b.removeLast());
+        }
+
+    }
+
+    private void procuraTodosOsCaminhosAciclicos(int vertice, ArrayList<Integer> caminhoAnterior) {
+
+        if (vertice == verticeDestino) {
+            caminhos.add(caminhoAnterior);
+
+        } else if (caminhoAnterior.contains(vertice) == false && vertice != verticeOrigem) {
+            ArrayList<Integer> caminhoAtual = new ArrayList<Integer>(caminhoAnterior);
+            caminhoAtual.add(vertice);
+            int[] sucessores = fs.listaSucessores(vertice);
+            int grauSaida = sucessores.length;
             for (int c = 0; c < grauSaida; c++) {
-                if (caminhoAnterior.contains(vertice) == false) {
-                    procuraCaminhosDisjuntos(fs.destino[c + ponteiro], caminhoAtual);
+                {
+                    if (caminhoAtual.contains(vertice) == false && sucessores[c] != verticeOrigem) {
+                        procuraTodosOsCaminhosAciclicos(sucessores[c], caminhoAtual);
+                    }
                 }
             }
         }

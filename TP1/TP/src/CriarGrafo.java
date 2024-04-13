@@ -3,7 +3,7 @@ import java.util.LinkedList;
 import java.util.Random;
 public class CriarGrafo {
     public static void main(String[] args) throws Exception {
-        criar();
+//        criar();
         
         File arq=new File("a1");
         ForwardStar fs=new ForwardStar(arq);
@@ -12,10 +12,11 @@ public class CriarGrafo {
         bi.iterarGrafo(G);
         for(int c=1; c<fs.m;c++)
         {
-            for(int j=2; j<fs.m;j++)
+             for(int j=2; j<fs.m;j++)
             {
             CaminhoDisjunto cd=new CaminhoDisjunto(fs, c, j);
-              if(cd.procuraCaminhosDisjuntos()!=null)
+            cd.procuraTodosOsCaminhosAciclicos();
+              if(cd.solucao.size()!=0)
                 {
                     System.out.println("existe caminho disjunto entre "+c+" e "+j);
                 }

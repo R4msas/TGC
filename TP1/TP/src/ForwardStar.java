@@ -36,6 +36,22 @@ public class ForwardStar {
         System.out.print("Lista de Sucessores: ");
         imprimeArray(saida[v - 1] - 1, sucessores);
     }
+    public int[] listaSucessores(int v)
+    {
+        int sucessores = saida[v] - saida[v - 1];
+        int[]resp=new int[sucessores];
+        int inicio=saida[v-1]-1;
+        int c=0;
+        while(sucessores>0)
+        {
+            resp[c]=destino[inicio];
+            inicio++;
+            c++;
+            sucessores--;
+
+        }
+        return resp;
+    }
 
     public void imprimeArray(int inicio, int repeticoes) {
         while (repeticoes > 0) {
