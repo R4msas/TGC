@@ -7,11 +7,13 @@ public class ForwardStar {
     int n;
     int[] saida;
     int[] destino;
-/**
- * Lê o arquivo e gera o Forward Star. 
- * @param arq
- * @throws Exception
- */
+
+    /**
+     * Lê o arquivo e gera o Forward Star.
+     * 
+     * @param arq
+     * @throws Exception
+     */
     ForwardStar(File arq) throws Exception {
         RandomAccessFile raf = new RandomAccessFile(arq, "r");
         m = raf.readInt();
@@ -27,31 +29,33 @@ public class ForwardStar {
         raf.close();
     }
 
-/**
- * Método para debug inicialmente, imprime os sucessores do vértice seleciano
- * @param v
- */
+    /**
+     * Método para debug inicialmente, imprime os sucessores do vértice seleciano
+     * 
+     * @param v
+     */
     public ForwardStar() {
-        m=11;
-        n=30;
-        saida=new int[]{1,3,6,10,13,16,19,22,25,27,29,31};
-        destino=new int[]{2,3,1,3,4,1,2,5,6,2,7,8,3,6,9,3,5,9,4,8,10,4,7,11,5,6,7,11,10,8};
+        m = 11;
+        n = 30;
+        saida = new int[] { 1, 3, 6, 10, 13, 16, 19, 22, 25, 27, 29, 31 };
+        destino = new int[] { 2, 3, 1, 3, 4, 1, 2, 5, 6, 2, 7, 8, 3, 6, 9, 3, 5, 9, 4, 8, 10, 4, 7, 11, 5, 6, 7, 11, 10,
+                8 };
     }
+
     public void busca(int v) {
         int sucessores = saida[v] - saida[v - 1];
         System.out.println("Grau de saída: " + sucessores);
         System.out.print("Lista de Sucessores: ");
         imprimeArray(saida[v - 1] - 1, sucessores);
     }
-    public int[] listaSucessores(int v)
-    {
+
+    public int[] listaSucessores(int v) {
         int sucessores = saida[v] - saida[v - 1];
-        int[]resp=new int[sucessores];
-        int inicio=saida[v-1]-1;
-        int c=0;
-        while(sucessores>0)
-        {
-            resp[c]=destino[inicio];
+        int[] resp = new int[sucessores];
+        int inicio = saida[v - 1] - 1;
+        int c = 0;
+        while (sucessores > 0 && c < 200 & inicio < 200) {
+            resp[c] = destino[inicio];
             inicio++;
             c++;
             sucessores--;

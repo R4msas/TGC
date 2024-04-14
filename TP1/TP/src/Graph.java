@@ -30,6 +30,7 @@
  *  @author Kevin Wayne
  */
 import java.util.Stack;
+
 public class Graph {
     private static final String NEWLINE = System.getProperty("line.separator");
 
@@ -41,12 +42,13 @@ public class Graph {
      * Initializes an empty graph with {@code V} vertices and 0 edges.
      * param V the number of vertices
      *
-     * @param  V number of vertices
+     * @param V number of vertices
      * @throws IllegalArgumentException if {@code V < 0}
      */
     @SuppressWarnings("unchecked")
     public Graph(int V) {
-        if (V < 0) throw new IllegalArgumentException("Number of vertices must be non-negative");
+        if (V < 0)
+            throw new IllegalArgumentException("Number of vertices must be non-negative");
         this.V = V;
         this.E = 0;
         adj = (Bag<Integer>[]) new Bag[V];
@@ -55,64 +57,67 @@ public class Graph {
         }
     }
 
-    /**Comentários anteriores foram preservados->
+    /**
+     * Comentários anteriores foram preservados->
      * Initializes a graph from the specified input stream.
      * The format is the number of vertices <em>V</em>,
      * followed by the number of edges <em>E</em>,
-     * followed by <em>E</em> pairs of vertices, with each entry separated by whitespace.
-     *término. 
-     * Foi alterado o método original para que faça a criação do grafo recebendo um Forward Star
-     * @param  fs forwardStar
+     * followed by <em>E</em> pairs of vertices, with each entry separated by
+     * whitespace.
+     * término.
+     * Foi alterado o método original para que faça a criação do grafo recebendo um
+     * Forward Star
+     * 
+     * @param fs forwardStar
      * @throws IllegalArgumentException if {@code in} is {@code null}
-     * @throws IllegalArgumentException if the endpoints of any edge are not in prescribed range
-     * @throws IllegalArgumentException if the number of vertices or edges is negative
+     * @throws IllegalArgumentException if the endpoints of any edge are not in
+     *                                  prescribed range
+     * @throws IllegalArgumentException if the number of vertices or edges is
+     *                                  negative
      * @throws IllegalArgumentException if the input stream is in the wrong format
      */
     @SuppressWarnings("unchecked")
     public Graph(ForwardStar fs) {
-        if (fs == null) throw new IllegalArgumentException("argument is null");
-        try {
-            this.V = fs.m;
-            if (V < 0) throw new IllegalArgumentException("number of vertices in a Graph must be non-negative");
-            adj = (Bag<Integer>[]) new Bag[V];
-            for (int v = 0; v < V; v++) {
-                adj[v] = new Bag<Integer>();
-            }
-            int E = fs.n;
-            if (E < 0) throw new IllegalArgumentException("number of edges in a Graph must be non-negative");
-            int iteradorDestino=0;
-            for (int i = 0; i < V; i++) {
-                int repeticoes=fs.saida[i+1]-fs.saida[i];
-                int v=i;
-                while(repeticoes>0)
-                {
-                    int w=fs.destino[iteradorDestino];
-                    w--;
-                    validateVertex(v);
-                    validateVertex(w);
-                    addEdge(v, w);
-                    iteradorDestino++;
-                    repeticoes--;
-                }
-            }
+        if (fs == null)
+            throw new IllegalArgumentException("argument is null");
+        this.V = fs.m;
+        if (V < 0)
+            throw new IllegalArgumentException("number of vertices in a Graph must be non-negative");
+        adj = (Bag<Integer>[]) new Bag[V];
+        for (int v = 0; v < V; v++) {
+            adj[v] = new Bag<Integer>();
         }
-        catch (Exception e) {
-            throw new IllegalArgumentException("invalid input format in Graph constructor", e);
+        int E = fs.n;
+        if (E < 0)
+            throw new IllegalArgumentException("number of edges in a Graph must be non-negative");
+        int iteradorDestino = 0;
+        for (int i = 0; i < V; i++) {
+            int repeticoes = fs.saida[i + 1] - fs.saida[i];
+            int v = i;
+            while (repeticoes > 0 && iteradorDestino < 200) {
+                int w = fs.destino[iteradorDestino];
+                w--;
+                validateVertex(v);
+                validateVertex(w);
+                addEdge(v, w);
+                iteradorDestino++;
+                repeticoes--;
+            }
         }
     }
-
 
     /**
      * Initializes a new graph that is a deep copy of {@code G}.
      *
-     * @param  G the graph to copy
+     * @param G the graph to copy
      * @throws IllegalArgumentException if {@code G} is {@code null}
      */
     @SuppressWarnings("unchecked")
     public Graph(Graph G) {
         this.V = G.V();
         this.E = G.E();
-        if (V < 0) throw new IllegalArgumentException("Number of vertices must be non-negative");
+        if (V < 0)
+            throw new IllegalArgumentException("Number of vertices must be non-negative");
 
         // update adjacency lists
         adj = (Bag<Integer>[]) new Bag[V];
@@ -153,15 +158,16 @@ public class Graph {
     // throw an IllegalArgumentException unless {@code 0 <= v < V}
     private void validateVertex(int v) {
         if (v < 0 || v >= V)
-            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V-1));
+            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V - 1));
     }
 
     /**
      * Adds the undirected edge v-w to this graph.
      *
-     * @param  v one vertex in the edge
-     * @param  w the other vertex in the edge
-     * @throws IllegalArgumentException unless both {@code 0 <= v < V} and {@code 0 <= w < V}
+     * @param v one vertex in the edge
+     * @param w the other vertex in the edge
+     * @throws IllegalArgumentException unless both {@code 0 <= v < V} and
+     *                                  {@code 0 <= w < V}
      */
     public void addEdge(int v, int w) {
         validateVertex(v);
@@ -171,11 +177,10 @@ public class Graph {
         adj[w].add(v);
     }
 
-
     /**
      * Returns the vertices adjacent to vertex {@code v}.
      *
-     * @param  v the vertex
+     * @param v the vertex
      * @return the vertices adjacent to vertex {@code v}, as an iterable
      * @throws IllegalArgumentException unless {@code 0 <= v < V}
      */
@@ -187,7 +192,7 @@ public class Graph {
     /**
      * Returns the degree of vertex {@code v}.
      *
-     * @param  v the vertex
+     * @param v the vertex
      * @return the degree of vertex {@code v}
      * @throws IllegalArgumentException unless {@code 0 <= v < V}
      */
@@ -196,11 +201,11 @@ public class Graph {
         return adj[v].size();
     }
 
-
     /**
      * Returns a string representation of this graph.
      *
-     * @return the number of vertices <em>V</em>, followed by the number of edges <em>E</em>,
+     * @return the number of vertices <em>V</em>, followed by the number of edges
+     *         <em>E</em>,
      *         followed by the <em>V</em> adjacency lists
      */
     public String toString() {
@@ -215,7 +220,6 @@ public class Graph {
         }
         return s.toString();
     }
-
 
     /**
      * Unit tests the {@code Graph} data type.

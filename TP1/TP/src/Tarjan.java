@@ -12,8 +12,9 @@ public class Tarjan {
   // Count is number of biconnected components. time is
   // used to find discovery times
   static int count = 0, time = 0;
-  private static LinkedList<LinkedList<Integer>> componentes= new LinkedList<>();
+  private static LinkedList<LinkedList<Integer>> componentes = new LinkedList<>();
   private int auxiliar_comp;
+
   class Edge {
     int u;
     int v;
@@ -23,13 +24,15 @@ public class Tarjan {
       this.v = v;
     }
   };
-  Tarjan(ForwardStar fs){
+
+  Tarjan(ForwardStar fs) {
     initialize(fs);
   }
+
   // Constructor
   Tarjan(int v) {
     componentes.add(new LinkedList<Integer>());
-    auxiliar_comp=0;
+    auxiliar_comp = 0;
     V = v;
     // E = 0;
     adj = new LinkedList[v];
@@ -51,11 +54,12 @@ public class Tarjan {
   // discovery time) that can be reached from subtree
   // rooted with current vertex
   // *st -- >> To store visited edges
-  void addComponent(int comp, int index){
-    if(!componentes.get(index).contains(comp)){
+  void addComponent(int comp, int index) {
+    if (!componentes.get(index).contains(comp)) {
       componentes.get(index).add(comp);
     }
   }
+
   void BCCUtil(int u, int disc[], int low[], LinkedList<Edge> st,
       int parent[]) {
 
@@ -115,6 +119,7 @@ public class Tarjan {
 
   // The function to do DFS traversal. It uses BCCUtil()
   void BCC() {
+    long init = System.currentTimeMillis();
     int disc[] = new int[V];
     int low[] = new int[V];
     int parent[] = new int[V];
@@ -144,6 +149,8 @@ public class Tarjan {
         count++;
       }
     }
+
+    System.out.println((System.currentTimeMillis() - init) + " ms");
   }
 
   public void addAllEdge(ForwardStar fs) {
@@ -155,18 +162,19 @@ public class Tarjan {
     }
   }
 
-  public void initialize(ForwardStar forwardStar){
+  public void initialize(ForwardStar forwardStar) {
     // ForwardStar forwardStar = new ForwardStar();
-    Tarjan g = new Tarjan(forwardStar.m + 1);
+    Tarjan g = new Tarjan(forwardStar.m + 2);
     g.addAllEdge(forwardStar);
 
     g.BCC();
     componentes.removeLast();
-    for(LinkedList<Integer> element: componentes){
+    for (LinkedList<Integer> element : componentes) {
       System.out.println(element);
     }
 
-    // System.out.println("Above are " + g.count + " biconnected components in Tarjan");
+    // System.out.println("Above are " + g.count + " biconnected components in
+    // Tarjan");
   }
 }
 // This code is contributed by Aakash Hasija
