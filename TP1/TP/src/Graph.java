@@ -94,7 +94,7 @@ public class Graph {
         for (int i = 0; i < V; i++) {
             int repeticoes = fs.saida[i + 1] - fs.saida[i];
             int v = i;
-            while (repeticoes > 0 && iteradorDestino < 200) {
+            while (repeticoes > 0) {
                 int w = fs.destino[iteradorDestino];
                 w--;
                 validateVertex(v);

@@ -54,7 +54,7 @@ public class ForwardStar {
         int[] resp = new int[sucessores];
         int inicio = saida[v - 1] - 1;
         int c = 0;
-        while (sucessores > 0 && c < 200 & inicio < 200) {
+        while (sucessores > 0) {
             resp[c] = destino[inicio];
             inicio++;
             c++;
