@@ -27,7 +27,7 @@ public class CaminhoDisjunto {
                 if (cd.solucao.size() != 0) {//&&!array.stream().anyMatch(solucao->solucao.containsAll(cd.solucao))
                     //System.out.println("Há caminho disjunto entre " + c + " e " + j);
 
-                    if(cd.verificaSeExisteSolucao(array))
+                    if(cd.verificaSeExisteSolucao(array)==false)
                     {
                         array.add(cd.solucao);
                     }
@@ -41,7 +41,7 @@ public class CaminhoDisjunto {
     }
      private boolean verificaSeExisteSolucao(ArrayList<ArrayList<Integer>>array)
     {  
-        boolean resp=false;
+
         for(var a:array)
         {
             if(a.size()==solucao.size())
@@ -50,12 +50,14 @@ public class CaminhoDisjunto {
                 {
                     if(a.get(c)==solucao.get(c))
                     {
+                        return true;
                         
                     }
                 }
             }
             
-        } 
+        }
+        return false; 
     }
     private static void imprimeComponentes(ArrayList<ArrayList<Integer>>array)
     {

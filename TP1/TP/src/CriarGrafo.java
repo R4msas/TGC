@@ -6,13 +6,13 @@ import java.util.Random;
 
 public class CriarGrafo {
     public static void main(String[] args) throws Exception {
-            criar();
+            //criar();
             File arq=new File("a1");
         // ForwardStar fs=new ForwardStar(arq);
         // Graph G=new Graph(fs);
         // Biconnected bi=new Biconnected(G);
         // bi.iterarGrafo(G);
-        ForwardStar fs = new ForwardStar();
+        ForwardStar fs = new ForwardStar(arq);
         CaminhoDisjunto.procuraCaminhosPeloGrafo(fs);
        
         
