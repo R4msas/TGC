@@ -5,23 +5,21 @@ import java.util.Random;
 public class CriarGrafo {
     public static void main(String[] args) throws Exception {
         // criar();
-
-        // File arq=new File("a1");
-        // ForwardStar fs=new ForwardStar(arq);
-        // Graph G=new Graph(fs);
-        // Biconnected bi=new Biconnected(G);
-        // bi.iterarGrafo(G);
         ForwardStar fs = new ForwardStar();
-        for (int c = 1; c < fs.m; c++) {
-            for (int j = 2; j < fs.m; j++) {
-                CaminhoDisjunto cd = new CaminhoDisjunto(fs, c, j);
-                cd.procuraTodosOsCaminhosAciclicos();
-                if (cd.solucao.size() != 0) {
-                    System.out.println("existe caminho disjunto entre " + c + " e " + j);
-                }
-            }
-        }
+        File file = new File("graph-test-100-1.txt");
+        fs = new ForwardStar(file);
+        
+        getComponentsBiconnected(fs);
+        // fs.busca(29); 
+    }
 
+    public static void getComponentsBiconnected(ForwardStar fs){
+        Graph graph = new Graph(fs);
+        Biconnected biConnected=new Biconnected(graph);
+        int array[] =biConnected.getArrayArticulation();
+
+        DFS dfs = new DFS(fs.saida.length-1, fs);
+        dfs.getComponentes(array);
     }
 
     public static void criar() throws Exception {
@@ -34,7 +32,7 @@ public class CriarGrafo {
          * criar("d" + i, d, 2);
          * }
          */
-        criar("a" + 1, 100, 5);
+        criar("a" + 1, 100000, 10);
 
     }
 

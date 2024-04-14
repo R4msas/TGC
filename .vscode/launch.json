@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "DFS",
+            "request": "launch",
+            "mainClass": "DFS",
+            "projectName": "TGC_62398d1c"
+        },
+        {
+            "type": "java",
+            "name": "CriarGrafo",
+            "request": "launch",
+            "mainClass": "CriarGrafo",
+            "projectName": "TGC_62398d1c"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
