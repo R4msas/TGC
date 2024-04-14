@@ -151,7 +151,7 @@ public class Graph {
 
     // throw an IllegalArgumentException unless {@code 0 <= v < V}
     private void validateVertex(int v) {
-        if (v < 0 || v >= V)
+        if (v < 1 || v > V)
             throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V-1));
     }
 
@@ -167,7 +167,7 @@ public class Graph {
         validateVertex(w);
         E++;
         adj[v].add(w);
-        adj[w].add(v);
+        //adj[w].add(v);
     }
 
 

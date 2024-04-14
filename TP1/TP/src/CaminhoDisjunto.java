@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class CaminhoDisjunto {
     ForwardStar fs;
@@ -7,6 +8,7 @@ public class CaminhoDisjunto {
     ArrayList<ArrayList<Integer>> caminhos;
     ArrayList<Integer> solucao;
 
+ 
     public CaminhoDisjunto(ForwardStar fs, int verticeOrigem, int verticeDestino) 
     {
         this.fs = fs;
@@ -16,6 +18,61 @@ public class CaminhoDisjunto {
         solucao = new ArrayList<>();
     }
 
+    public static void procuraCaminhosPeloGrafo(ForwardStar fs){
+        ArrayList<ArrayList<Integer>>array=new ArrayList<>();
+        for (int c = 1; c <= fs.m; c++) {
+            for (int j = c+1; j <= fs.m; j++) {
+                CaminhoDisjunto cd = new CaminhoDisjunto(fs, c, j);
+                cd.procuraTodosOsCaminhosAciclicos();
+                if (cd.solucao.size() != 0) {//&&!array.stream().anyMatch(solucao->solucao.containsAll(cd.solucao))
+                    //System.out.println("Há caminho disjunto entre " + c + " e " + j);
+
+                    if(cd.verificaSeExisteSolucao(array))
+                    {
+                        array.add(cd.solucao);
+                    }
+                }
+               /*  else{
+                    System.out.println("não existe caminho disjunto "+ c+" e "+j);
+                } */
+            }
+            imprimeComponentes(array);
+        }
+    }
+     private boolean verificaSeExisteSolucao(ArrayList<ArrayList<Integer>>array)
+    {  
+        boolean resp=false;
+        for(var a:array)
+        {
+            if(a.size()==solucao.size())
+            {
+                for(int c=0;c<a.size();c++)
+                {
+                    if(a.get(c)==solucao.get(c))
+                    {
+                        
+                    }
+                }
+            }
+            
+        } 
+    }
+    private static void imprimeComponentes(ArrayList<ArrayList<Integer>>array)
+    {
+        for(var h:array)
+        {
+            imprimeArray(h);
+        }
+    }
+    private static void imprimeArray(ArrayList<Integer> array)
+    {
+        System.out.print("Componentes Biconexos:");
+        for(var a:array)
+        {
+        System.out.print(" "+a+",");
+        }
+        System.out.println("");
+    }
     public void procuraTodosOsCaminhosAciclicos() {
 
         int[] sucessores = fs.listaSucessores(verticeOrigem);
@@ -28,9 +85,9 @@ public class CaminhoDisjunto {
                 temVizinho=ehVizinho(sucessores, verticeDestino);
                 
                 }
-                if(sucessores[c]>verticeOrigem){
+                
                 procuraTodosOsCaminhosAciclicos(sucessores[c], array);
-                }
+                
           
             } 
         
@@ -56,27 +113,55 @@ public class CaminhoDisjunto {
     }
 
     private boolean iteraPelosCaminhosEncontrados() {
-        boolean resp;
-        int []caminhoDisj=new int[caminhos.size()];
+        boolean resp =false;
+        int []caminhoDisj=new int[fs.m+1];
         for (int c = 0; c < caminhos.size() - 1; c++) {
             for (int j = c + 1; j < caminhos.size(); j++) {
-                verificaSeSaoCaminhosDisjuntos(caminhos.get(c), caminhos.get(j));
+                if(verificaSeSaoCaminhosDisjuntos(caminhos.get(c), caminhos.get(j),caminhoDisj))
+                {
+                    resp=true;
+                }
             }
+        }
+        if(resp==true)
+        {
+            criaSolucao(caminhoDisj);
+
         }
         return resp;
     }
 
-    private void verificaSeSaoCaminhosDisjuntos(ArrayList<Integer> a, ArrayList<Integer> b) {
+    private void criaSolucao(int[] caminhoDisj){
+        for(int c=1;c<caminhoDisj.length;c++)
+        {
+            
+                if(caminhoDisj[c]!=0)
+                {
+                    solucao.add(c);
+                }
+            
+            
+        }
+    }
+    private boolean verificaSeSaoCaminhosDisjuntos(ArrayList<Integer> a, ArrayList<Integer> b, int []caminhoDisj) {
         for (int c = 1; c < a.size()-1; c++) {
             
             if (b.contains(a.get(c))) {
-                return;
+                return false;
             }
         }
-        solucao = new ArrayList<>(a);
+       /*  solucao = new ArrayList<>(a);
         for (int c = 1; c < b.size()-1; c++) {
             solucao.add(b.get(c));
+        } */
+        for (int c = 0; c < b.size(); c++) {
+            caminhoDisj[b.get(c)]+=1;
         }
+        for (int c = 0; c < a.size(); c++) {
+            caminhoDisj[a.get(c)]+=1;
+        }
+        return true;
+
 
     }
 

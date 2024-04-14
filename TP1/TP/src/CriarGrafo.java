@@ -1,28 +1,21 @@
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
 
 public class CriarGrafo {
     public static void main(String[] args) throws Exception {
-        // criar();
-        // File arq=new File("a1");
+            criar();
+            File arq=new File("a1");
         // ForwardStar fs=new ForwardStar(arq);
         // Graph G=new Graph(fs);
         // Biconnected bi=new Biconnected(G);
         // bi.iterarGrafo(G);
         ForwardStar fs = new ForwardStar();
-        for (int c = 1; c <= fs.m; c++) {
-            for (int j = 2; j < fs.m; j++) {
-                CaminhoDisjunto cd = new CaminhoDisjunto(fs, c, j);
-                cd.procuraTodosOsCaminhosAciclicos();
-                if (cd.solucao.size() != 0) {
-                    System.out.println("Há caminho disjunto entre " + c + " e " + j);
-                }
-               /*  else{
-                    System.out.println("não existe caminho disjunto "+ c+" e "+j);
-                } */
-            }
-        }
+        CaminhoDisjunto.procuraCaminhosPeloGrafo(fs);
+       
+        
 
     }
 
@@ -36,7 +29,7 @@ public class CriarGrafo {
          * criar("d" + i, d, 2);
          * }
          */
-        criar("a" + 1, 100, 5);
+        criar("a" + 1, 100000, 20);
 
     }
 
