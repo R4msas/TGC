@@ -1,22 +1,20 @@
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
 
 public class CriarGrafo {
     public static void main(String[] args) throws Exception {
-            //criar();
+            criar();
             File arq=new File("a1");
-        // ForwardStar fs=new ForwardStar(arq);
+        ForwardStar fs=new ForwardStar(arq);
         // Graph G=new Graph(fs);
         // Biconnected bi=new Biconnected(G);
         // bi.iterarGrafo(G);
-        ForwardStar fs = new ForwardStar(arq);
+        // ForwardStar fs = new ForwardStar();
+        // new Thread().start();        
+        //fs.busca(100000);
         CaminhoDisjunto.procuraCaminhosPeloGrafo(fs);
        
-        
-
     }
 
     public static void criar() throws Exception {
@@ -29,7 +27,7 @@ public class CriarGrafo {
          * criar("d" + i, d, 2);
          * }
          */
-        criar("a" + 1, 100000, 20);
+        criar("a" + 1, 1000, 7);
 
     }
 
@@ -82,7 +80,7 @@ public class CriarGrafo {
         while (raizes.size() >= 1) {
             la.inserir(raiz, raizes.poll());
         }
-
+    
     }
 
 }
