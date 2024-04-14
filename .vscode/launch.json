@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "TGC_62398d1c"
+        },
+        {
+            "type": "java",
+            "name": "Tarjan",
+            "request": "launch",
+            "mainClass": "Tarjan",
+            "projectName": "TGC_62398d1c"
+        },
+        {
+            "type": "java",
             "name": "DFS",
             "request": "launch",
             "mainClass": "DFS",

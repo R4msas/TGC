@@ -29,6 +29,7 @@
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
+import java.util.Stack;
 public class Graph {
     private static final String NEWLINE = System.getProperty("line.separator");
 

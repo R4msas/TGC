@@ -26,6 +26,7 @@ public class ForwardStar {
         }
         raf.close();
     }
+
 /**
  * Método para debug inicialmente, imprime os sucessores do vértice seleciano
  * @param v
