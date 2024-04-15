@@ -1,18 +1,16 @@
-## Getting Started
+Na pasta TP temos outras pastas: Create_Graph, grafos_usados e src.
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Create_Graph -> essa pasta serve para criar um arquivo que virá para a pasta raiz, ao entrar nela tem alguns comentarios de como utiliza-la.
 
-## Folder Structure
+src -> dentro da pasta src, temos duas pastas: 
+    
+    AriculacaoAndTarjan que funcionam corretamente.
+    Em ArticulacaoAndTarjan vá para pasta 'Main.java', la terão comentarios que irão te auxiliar a usa-la.
+    OBS: para usar os comandos devera colocar o path certo para o arquivo (recomendado colocar na pasta e acessar diretamente).
 
-The workspace contains two folders by default, where:
+    CaminhosDistintos que da erro: StackOverFlow ou cria muitos caminhos (o que deixa a solução ineficiente).
+    Para caso de querer testar o metodo só executar o arquivo CaminhoDisjunto, assim como foi feito para o de cima.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+alguns_grafos_para_usar -> alguns grafos caso precise.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+Exemplo_Saida_Articulacao & Exemplo_Saida_Tarjan -> alguns arquivos com os componentes e tempos gastos. 
