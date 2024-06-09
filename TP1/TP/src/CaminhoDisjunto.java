@@ -8,6 +8,21 @@ public class CaminhoDisjunto {
     ArrayList<ArrayList<Integer>> caminhos;
     ArrayList<Integer> solucao;
 
+    public static void main(String[] args) {
+        
+        File arq=new File("a1");
+        realizaCaminhoDisjunto(File);
+        
+    }
+
+    public static realizaCaminhoDisjunto(File arq){
+        ForwardStar fs=new ForwardStar(arq);
+        Date date= new Date();
+        long inicio=date.getTime();
+        CaminhoDisjunto.procuraCaminhosPeloGrafo(fs);
+        long fim=date.getTime();
+        System.out.println("tempo em milissegundos "+(fim-inicio));
+    }
  
     public CaminhoDisjunto(ForwardStar fs, int verticeOrigem, int verticeDestino) 
     {
@@ -30,6 +45,9 @@ public class CaminhoDisjunto {
                     if(cd.verificaSeExisteSolucao(array)==false)
                     {
                         array.add(cd.solucao);
+                    }
+                    if(cd.solucao.size()!=0){
+                        break;
                     }
                 }
                /*  else{
@@ -114,16 +132,36 @@ public class CaminhoDisjunto {
         return false;
     }
 
+    private boolean iteraPelosCaminhosEncontrados(ArrayList<Integer> list) {
+        boolean resp =false;
+        int []caminhoDisj=new int[fs.m+1];
+        for (int c = 0; c < caminhos.size() - 1; c++) {
+            
+                if(verificaSeSaoCaminhosDisjuntos(caminhos.get(c), list,caminhoDisj))
+                {
+                    resp=true;
+                }
+            
+        }
+        if(resp==true)
+        {
+            criaSolucao(caminhoDisj);
+
+        }
+        return resp;
+    }
     private boolean iteraPelosCaminhosEncontrados() {
         boolean resp =false;
         int []caminhoDisj=new int[fs.m+1];
         for (int c = 0; c < caminhos.size() - 1; c++) {
-            for (int j = c + 1; j < caminhos.size(); j++) {
-                if(verificaSeSaoCaminhosDisjuntos(caminhos.get(c), caminhos.get(j),caminhoDisj))
+            for (int i = 1; i < caminhoDisj.length; i++) {
+                if(verificaSeSaoCaminhosDisjuntos(caminhos.get(c), caminhos.get(c),caminhoDisj))
                 {
                     resp=true;
                 }
             }
+                
+            
         }
         if(resp==true)
         {
@@ -167,11 +205,19 @@ public class CaminhoDisjunto {
 
     }
 
-    private void procuraTodosOsCaminhosAciclicos(int vertice, ArrayList<Integer> caminhoAnterior) {
+    private boolean procuraTodosOsCaminhosAciclicos(int vertice, ArrayList<Integer> caminhoAnterior) {
+        boolean condicaoParada=false;
         ArrayList<Integer> caminhoAtual = new ArrayList<Integer>(caminhoAnterior);
         caminhoAtual.add(vertice);
         if (vertice == verticeDestino) {
+           if(iteraPelosCaminhosEncontrados(caminhoAtual))
+           {
            caminhos.add(caminhoAtual);
+            return true;
+           }
+           caminhos.add(caminhoAtual);
+
+           
 
         } else if (caminhoAnterior.contains(vertice) == false) {
             
@@ -179,12 +225,18 @@ public class CaminhoDisjunto {
             int grauSaida = sucessores.length;
             for (int c = 0; c < grauSaida; c++) {
                 {
+                    
+                    if(condicaoParada)
+                    {
+                        return true;
+                    }
                     if (caminhoAtual.contains(sucessores[c]) == false ) {
-                        procuraTodosOsCaminhosAciclicos(sucessores[c], caminhoAtual);
+                        condicaoParada=procuraTodosOsCaminhosAciclicos(sucessores[c], caminhoAtual);
                     }
                 }
             }
         }
+        return condicaoParada;
 
     }
 }

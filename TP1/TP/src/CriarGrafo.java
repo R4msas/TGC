@@ -1,35 +1,30 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
 
 public class CriarGrafo {
     public static void main(String[] args) throws Exception {
-            //criar();
-            File arq=new File("a1");
-        // ForwardStar fs=new ForwardStar(arq);
-        // Graph G=new Graph(fs);
-        // Biconnected bi=new Biconnected(G);
-        // bi.iterarGrafo(G);
-        ForwardStar fs = new ForwardStar(arq);
-        CaminhoDisjunto.procuraCaminhosPeloGrafo(fs);
+         criar();
+        
        
         
 
     }
 
     public static void criar() throws Exception {
-        /*
-         * int a = 100, b = 1000, c = 10000, d = 100000;
-         * for (int i = 1; i <= 10; i++) {
-         * criar("a" + i, a, 1);
-         * criar("b" + i, b, 1.5);
-         * criar("c" + i, c, 1.5);
-         * criar("d" + i, d, 2);
-         * }
-         */
-        criar("a" + 1, 100000, 20);
+        
+          int a = 100, b = 1000, c = 10000, d = 100000;
+          for (int i = 1; i <= 10; i++) {
+          criar("a" + i, a, 3);
+          criar("b" + i, b, 4);
+          criar("c" + i, c, 4);
+          criar("d" + i, d, 6);
+          }
+         
+        // criar("a" + 1, 100, 5);
 
     }
 
