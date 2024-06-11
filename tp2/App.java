@@ -6,13 +6,17 @@ public class App {
     static String prefixo="arquivoBase/pmed";
     static String sufixo=".txt";
 
-    public static void main(String[] args) {
-        
+    public static void main(String[] args) throws Exception {
+        ListaAdjacencia la=lerDoArquivo(prefixo+"1"+sufixo);
+        FloydWarshall fw=new FloydWarshall(la);
+        fw.printMatrix(fw.caminho);
+        fw.printMatrix(fw.distancia);
+
     }
 
 
 
-    public ForwardStar lerDoArquivo(String nomeArquivo) throws Exception
+    public static ListaAdjacencia lerDoArquivo(String nomeArquivo) throws Exception
     {
         Scanner sc=new Scanner(new File(nomeArquivo));
         int V=sc.nextInt();
@@ -29,7 +33,7 @@ public class App {
             E--;
         }
         sc.close();
-        return new ForwardStar(la);
+        return la;
     }
     
 }
