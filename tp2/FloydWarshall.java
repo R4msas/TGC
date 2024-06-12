@@ -28,6 +28,10 @@ public class FloydWarshall {
                 }
             }
         }
+        for(int i=1;i<=la.V;i++)
+        {
+            distancia[i][i]=0;
+        }
     }
 
     private void procuraCaminhos(ListaAdjacencia la) {
