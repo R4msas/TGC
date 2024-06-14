@@ -21,7 +21,7 @@ public class FloydWarshall {
         for (int i = 1; i <= la.V; i++) {
             for (int j = 1; j <= la.V; j++) {
                 distancia[i][j] = la.retornaPeso(i, j);
-                if (distancia[i][j] < la.infinito) {
+                if (distancia[i][j] < ListaAdjacencia.INFINITO) {
                     caminho[i][j] = i;
                 } else {
                     caminho[i][j] = -1;

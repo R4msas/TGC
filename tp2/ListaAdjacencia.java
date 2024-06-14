@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 /**
  * lista de adjacência dinâmica, usa-se esta na construção do grafo somente.
@@ -5,14 +8,15 @@
 public class ListaAdjacencia {
     int V;
     int E;
+    int k;
     Vertice[] vertices;
-    final int infinito = 100000;//estratégia de usar como infinito um número inteiro grande o suficiente.
+    public final static int INFINITO = 100000;//estratégia de usar como infinito um número inteiro grande o suficiente.
 
     /**
      * único construtor desta classe, E inicializado em zero, conforme forem
      * adicionadas arestas, E será atualizado.
      * 
-     * @param E
+     * @param V
      */
     ListaAdjacencia(int V) {
         this.V = V;
@@ -49,7 +53,7 @@ public class ListaAdjacencia {
     }
 
     public int retornaPeso(int v, int w) {
-        int resp = infinito;
+        int resp = INFINITO;
         
         try {
             int indice=vertices[v].adjacentes.indexOf(w);
@@ -62,5 +66,28 @@ public class ListaAdjacencia {
         }
 
         return resp;
+    }
+
+    public static ListaAdjacencia returnAdjacencyListFromFile(String nomeArquivo) throws Exception {
+        Scanner sc = new Scanner(new File(nomeArquivo));
+
+        int V = sc.nextInt(),
+            E = sc.nextInt(),
+            k = sc.nextInt();
+
+        ListaAdjacencia la = new ListaAdjacencia(V);
+        la.k = k;
+
+        int v, w, peso;
+        while (E > 0) {
+            v = sc.nextInt();
+            w = sc.nextInt();
+            peso = sc.nextInt();
+            la.inserirAresta(v, w, peso);
+            E--;
+        }
+        sc.close();
+
+        return la;
     }
 }
