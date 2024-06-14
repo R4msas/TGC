@@ -12,7 +12,7 @@ public class App {
     ListaAdjacencia la;
 
     public static void main(String[] args) throws Exception {
-        App app = new App(prefixo + "39" + sufixo);
+        App app = new App(prefixo + "1" + sufixo);
         app.fw = new FloydWarshall(app.la);
         app.gon(app.la.V);
 
@@ -46,7 +46,7 @@ public class App {
         centros[1] = c;
         int maiorRaio = encontraMaiorDistancia(pertenceAoCentro, centros, 1);
         System.out.println(maiorRaio);
-        int centroAjustado=ajustaCentro(pertenceAoCentro, centros);
+        // int centroAjustado=ajustaCentro(pertenceAoCentro, centros);
         return maiorRaio;
 
     }
@@ -129,37 +129,37 @@ public class App {
         return maiorRaio;
     }
     //este método está bugado, preciso implementá-lo
-    private int ajustaCentro(int[] pertenceAoCentro, int[] centros) {
-        int maiorRaio = 0;
-        int verticeComMaiorRaio = 0;
-        int col;
-        int vertice = 0;
-        try {
-            for (int linha = 1; linha <= la.V; linha++) {
-                int menorValorLinha = la.infinito;
-                for (int i = 1; i <= k; i++) {
-                    col = centros[i];
-                    if (fw.distancia[linha][col] < menorValorLinha) {
-                        menorValorLinha = fw.distancia[linha][col];
-                        vertice = linha;
-                        pertenceAoCentro[linha] = col;
-                    }
+    // private int ajustaCentro(int[] pertenceAoCentro, int[] centros) {
+    //     int maiorRaio = 0;
+    //     int verticeComMaiorRaio = 0;
+    //     int col;
+    //     int vertice = 0;
+    //     try {
+    //         for (int linha = 1; linha <= la.V; linha++) {
+    //             int menorValorLinha = la.infinito;
+    //             for (int i = 1; i <= k; i++) {
+    //                 col = centros[i];
+    //                 if (fw.distancia[linha][col] < menorValorLinha) {
+    //                     menorValorLinha = fw.distancia[linha][col];
+    //                     vertice = linha;
+    //                     pertenceAoCentro[linha] = col;
+    //                 }
 
-                }
-                if (menorValorLinha > maiorRaio) {
-                    maiorRaio = menorValorLinha;
-                    verticeComMaiorRaio = vertice;
-                }
+    //             }
+    //             if (menorValorLinha > maiorRaio) {
+    //                 maiorRaio = menorValorLinha;
+    //                 verticeComMaiorRaio = vertice;
+    //             }
 
-            }
+    //         }
 
-        }
-        catch(Exception e){
+    //     }
+    //     catch(Exception e){
 
-        }
+    //     }
         
-        return maiorRaio;
-    }
+    //     return maiorRaio;
+    // }
 
     private int encontraVerticeComDistanciaX(int verticeCentro, int verticeChegada, int distanciaX, int[] centros)
             throws Exception {
