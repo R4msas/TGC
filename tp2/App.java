@@ -10,12 +10,15 @@ public class App {
     static String sufixo = ".txt";
 
     public static void main(String[] args) throws Exception {
-        ListaAdjacencia listaAdjacencia = ListaAdjacencia.returnAdjacencyListFromFile(prefixo + "5" + sufixo);
+        ListaAdjacencia listaAdjacencia = ListaAdjacencia.returnAdjacencyListFromFile(prefixo + "1" + sufixo);
         FloydWarshall floydWarshall = new FloydWarshall(listaAdjacencia);
         ClusteringKCenters clusteringKCenters = new ClusteringKCenters(floydWarshall, listaAdjacencia);
 
+        // floydWarshall.printMatrix(floydWarshall.distancia);
+
         // clusteringKCenters.gonMethod(listaAdjacencia.V);
-        clusteringKCenters.findExactRadius(listaAdjacencia.k);
+        listaAdjacencia.k = 6;
+        System.out.println(clusteringKCenters.findExactRadius());
 
     }
 }

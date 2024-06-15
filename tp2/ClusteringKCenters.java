@@ -1,6 +1,6 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import utils.Permutation;
+
+import java.util.*;
 
 public class ClusteringKCenters {
     private FloydWarshall floydWarshallMatrix;
@@ -15,46 +15,51 @@ public class ClusteringKCenters {
         this.floydWarshallMatrix = floydWarshallMatrix;
     }
 
-    public int findExactRadius(int k) {
-        int[] radius = new int[1];
-        radius[0] = ListaAdjacencia.INFINITO;
+    public int findExactRadius() {
+        int radius = ListaAdjacencia.INFINITO;
 
-        backTrackingExactRadius(k, 0, radius);
+        int vecSize = floydWarshallMatrix.caminho.length - 1;
 
-        return radius[0];
-    }
+        int[] vec = new int[vecSize],
+              tmp = new int[la.k];
 
-    private void backTrackingExactRadius(int k, int i, int[] radius) {
-        if (i > floydWarshallMatrix.caminho.length - k) return;
+        for (int x = 0; x < vecSize; x++) vec[x] = x;
 
-        for (int x = i; x < floydWarshallMatrix.caminho.length - k; x += k) {
-           backTrackingExactRadius(k, i + 1, radius);
-           int[] kCenters = new int[k];
+        ArrayList<int[]> allPossibleKCenters = new ArrayList<>();
 
-           for (int y = 0; y < k; y++) {
-               kCenters[y] = x + y;
-           }
+        Permutation.combinationUtil(vec, vecSize, la.k, 0, tmp, 0, allPossibleKCenters);
 
-           int majorDistance = majorDistanceBetweenKCenters(kCenters);
-           if (majorDistance < radius[0]) {
-               radius[0] = majorDistance;
-           }
+        for (int[] kCenters : allPossibleKCenters) {
+            int majorDistanceBetweenCenters = majorDistanceBetweenKCenters(kCenters);
+
+            if (majorDistanceBetweenCenters < radius) {
+                radius = majorDistanceBetweenCenters;
+            }
         }
 
+        return radius;
     }
 
     private int majorDistanceBetweenKCenters(int[] kCenters) {
         int[][] distanceMatrix = floydWarshallMatrix.distancia;
         int majorDistance = 0;
+        boolean isFirstRow = true;
 
         for (int[] row : distanceMatrix) {
-            int minorBetweenCols = ListaAdjacencia.INFINITO;
-
-            for (int center : kCenters) {
-                if (row[center] < minorBetweenCols) minorBetweenCols = row[center];
+            if (isFirstRow) {
+                isFirstRow = false;
             }
+            else {
+                int minorBetweenCols = ListaAdjacencia.INFINITO;
 
-            if (minorBetweenCols > majorDistance) majorDistance = minorBetweenCols;
+                for (int center : kCenters) {
+                    if (row[center + 1] < minorBetweenCols) {
+                        minorBetweenCols = row[center + 1];
+                    }
+                }
+
+                if (minorBetweenCols > majorDistance) majorDistance = minorBetweenCols;
+            }
         }
 
         return majorDistance;
@@ -203,5 +208,32 @@ public class ClusteringKCenters {
             w = verificaSeECentro(centros, array);
         }
         return w;
+    }
+
+    private int recalculaCentro(int[] centros,int[]pertenceAoCentro, int iteradorCentro) {
+        int maiorRaio = 0;
+        int col;
+
+
+        try {
+            for (int linha = 1; linha <= la.V; linha++) {
+                int menorValorLinha = ListaAdjacencia.INFINITO;
+                for (int i = 0; i < iteradorCentro; i++) {
+                    col = centros[i] + 1;
+                    if (floydWarshallMatrix.distancia[linha][col] < menorValorLinha) {
+                        menorValorLinha = floydWarshallMatrix.distancia[linha][col];
+                        pertenceAoCentro[linha] = col;
+                    }
+
+                }
+                if (menorValorLinha > maiorRaio) {
+                    maiorRaio = menorValorLinha;
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return maiorRaio;
     }
 }

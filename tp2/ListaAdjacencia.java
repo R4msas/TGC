@@ -38,12 +38,22 @@ public class ListaAdjacencia {
      * @throws Exception
      */
     public void inserirAresta(int v, int w, int peso) throws Exception {
-        if (vertices[v].adjacentes.contains(w)) {
-            //System.out.println("tem um erro neste dataset, a aresta ("+v+", "+w+") já existe com custo "+retornaPeso(v,w)+". E foi solicitada a inserção da aresta aresta ("+v+", "+w+") com custo "+peso+"ignoramos a segunda inserção");
-        } else {
+        if (!vertices[v].adjacentes.contains(w)) {
             inserir(v, w, peso);
-            inserir(w,v,peso);
-            E+=2;
+            inserir(w, v, peso);
+            E += 2;
+        }
+        else {
+            int indexWeightV = vertices[v].adjacentes.indexOf(w),
+                currentWeightV = vertices[v].pesos.get(indexWeightV);
+
+            if (peso < currentWeightV) {
+                System.out.printf("[+] Updated {%d, %d}\n", v, w);
+                vertices[v].pesos.set(indexWeightV, peso);
+
+                int indexWeightW = vertices[w].adjacentes.indexOf(v);
+                vertices[w].pesos.set(indexWeightW, peso);
+            }
         }
     }
 
@@ -56,8 +66,8 @@ public class ListaAdjacencia {
         int resp = INFINITO;
         
         try {
-            int indice=vertices[v].adjacentes.indexOf(w);
-            if (indice!=-1) {
+            int indice = vertices[v].adjacentes.indexOf(w);
+            if (indice != -1) {
                 
                 resp = vertices[v].pesos.get(indice);
             }
@@ -79,12 +89,11 @@ public class ListaAdjacencia {
         la.k = k;
 
         int v, w, peso;
-        while (E > 0) {
+        while (sc.hasNext()) {
             v = sc.nextInt();
             w = sc.nextInt();
             peso = sc.nextInt();
             la.inserirAresta(v, w, peso);
-            E--;
         }
         sc.close();
 
