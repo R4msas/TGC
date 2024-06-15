@@ -27,9 +27,9 @@ public class DualMatrix {
        //passo 0.2
        u=new int[m+1];// u já inicia com zero
        v=new int[m+1];
-       for(int i=1;i<=m)
+       for(int i=1;i<=m;i++)
        {
-        int min=200000000000;
+        int min=2000000000;
         for(int j=1;j<=n;j++){
             if(matriz[i][j]<min)
             {
