@@ -36,6 +36,13 @@ public class ListaAdjacencia {
     public void inserirAresta(int v, int w, int peso) throws Exception {
         if (vertices[v].adjacentes.contains(w)) {
             //System.out.println("tem um erro neste dataset, a aresta ("+v+", "+w+") já existe com custo "+retornaPeso(v,w)+". E foi solicitada a inserção da aresta aresta ("+v+", "+w+") com custo "+peso+"ignoramos a segunda inserção");
+            if(peso<vertices[v].pesos.get(vertices[v].adjacentes.indexOf(w)))
+            {
+                vertices[v].pesos.set(vertices[v].adjacentes.indexOf(w),peso);
+                vertices[w].pesos.set(vertices[w].adjacentes.indexOf(v),peso);
+
+
+            }
         } else {
             inserir(v, w, peso);
             inserir(w,v,peso);

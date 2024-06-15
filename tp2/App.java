@@ -12,7 +12,7 @@ public class App {
     ListaAdjacencia la;
 
     public static void main(String[] args) throws Exception {
-        App app = new App(prefixo + "1" + sufixo);
+        App app = new App(prefixo + "34" + sufixo);
         app.fw = new FloydWarshall(app.la);
         app.gon(app.la.V);
 
@@ -52,12 +52,12 @@ public class App {
     }
 
     // private int encontraMaiorDistancia(int[] pertenceAoCentro, int[] centros, int
-    // fim) {
+    // iteradorCentro) {
     // int maiorRaio=0;
     // for(int i=1;i<=la.V;i++)
     // {
 
-    // for(int j=1;j<=fim;j++)
+    // for(int j=1;j<=iteradorCentro;j++)
     // {
     // if(fw.distancia[i][centros[j]]>maiorRaio)
     // {
@@ -66,7 +66,7 @@ public class App {
     // }
 
     // }
-    // if(fim<=k)
+    // if(iteradorCentro<=k)
     // {
 
     // }
@@ -84,7 +84,7 @@ public class App {
         return resp;
     }
 
-    private int encontraMaiorDistancia(int[] pertenceAoCentro, int[] centros, int fim) {
+    private int encontraMaiorDistancia(int[] pertenceAoCentro, int[] centros, int iteradorCentro) {
         int maiorRaio = 0;
         int verticeComMaiorRaio = 0;
         int col;
@@ -92,7 +92,7 @@ public class App {
         try {
             for (int linha = 1; linha <= la.V; linha++) {
                 int menorValorLinha = la.infinito;
-                for (int i = 1; i <= fim; i++) {
+                for (int i = 1; i <= iteradorCentro; i++) {
                     col = centros[i];
                     if (fw.distancia[linha][col] < menorValorLinha) {
                         menorValorLinha = fw.distancia[linha][col];
@@ -113,7 +113,7 @@ public class App {
 
         int verticeComdistanciaDoisTercos;
         try {
-            verticeComdistanciaDoisTercos = encontraVerticeComDistanciaX(centros[fim], verticeComMaiorRaio,
+            verticeComdistanciaDoisTercos = encontraVerticeComDistanciaX(centros[iteradorCentro], verticeComMaiorRaio,
                     maiorRaio / 2,
                     centros);
         } catch (Exception e) {
@@ -121,10 +121,13 @@ public class App {
             System.out.println("HELP");
 
         }
-        fim++;
-        centros[fim] = verticeComdistanciaDoisTercos;
-        if (fim < this.k) {
-            maiorRaio = encontraMaiorDistancia(pertenceAoCentro, centros, fim);
+        iteradorCentro++;
+        centros[iteradorCentro] = verticeComdistanciaDoisTercos;
+        if (iteradorCentro < this.k) {
+            maiorRaio = encontraMaiorDistancia(pertenceAoCentro, centros, iteradorCentro);
+        }
+        else{
+            maiorRaio=recalculaCentro(centros,pertenceAoCentro,iteradorCentro);
         }
         return maiorRaio;
     }
@@ -161,6 +164,32 @@ public class App {
     //     return maiorRaio;
     // }
 
+    private int recalculaCentro(int[] centros,int[]pertenceAoCentro, int iteradorCentro) {
+        int maiorRaio = 0;
+        int col;
+        try {
+            for (int linha = 1; linha <= la.V; linha++) {
+                int menorValorLinha = la.infinito;
+                for (int i = 1; i <= iteradorCentro; i++) {
+                    col = centros[i];
+                    if (fw.distancia[linha][col] < menorValorLinha) {
+                        menorValorLinha = fw.distancia[linha][col];
+                        pertenceAoCentro[linha] = col;
+                    }
+
+                }
+                if (menorValorLinha > maiorRaio) {
+                    maiorRaio = menorValorLinha;
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return maiorRaio;
+
+    }
+
     private int encontraVerticeComDistanciaX(int verticeCentro, int verticeChegada, int distanciaX, int[] centros)
             throws Exception {
         int resp = 0;
@@ -181,14 +210,14 @@ public class App {
         return array;
     }
 
-    private int verificaSeECentro(int[] centros, int verticeCentro, int w) {
-        final int vertice = w;
-        if (Arrays.stream(centros).anyMatch(value -> (value == vertice))) {
-            w = fw.caminho[verticeCentro][w];
-            w = verificaSeECentro(centros, verticeCentro, w);
-        }
-        return w;
-    }
+    // private int verificaSeECentro(int[] centros, int verticeCentro, int w) {
+    //     final int vertice = w;
+    //     if (Arrays.stream(centros).anyMatch(value -> (value == vertice))) {
+    //         w = fw.caminho[verticeCentro][w];
+    //         w = verificaSeECentro(centros, verticeCentro, w);
+    //     }
+    //     return w;
+    // }
 
     private int verificaSeECentro(int[] centros, ArrayList<Integer> array) {
         int pos=array.size()/2;
