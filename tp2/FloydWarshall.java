@@ -21,7 +21,7 @@ public class FloydWarshall {
         for (int i = 1; i <= la.V; i++) {
             for (int j = 1; j <= la.V; j++) {
                 distancia[i][j] = la.retornaPeso(i, j);
-                if (distancia[i][j] < la.infinito) {
+                if (distancia[i][j] < ListaAdjacencia.INFINITO) {
                     caminho[i][j] = i;
                 } else {
                     caminho[i][j] = -1;
@@ -48,8 +48,9 @@ public class FloydWarshall {
     }
     public void printMatrix(int[][] matrix) {
         for (int row = 1; row < matrix.length; row++) {
+            // System.out.printf("%d: ", row);
             for (int col = 1; col < matrix[row].length; col++) {
-                System.out.printf("%4d", matrix[row][col]);
+                System.out.printf("%d,", matrix[row][col]);
             }
             System.out.println();
         }

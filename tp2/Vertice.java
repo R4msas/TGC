@@ -7,7 +7,7 @@ class Vertice {
     
     Vertice() {
         adjacentes = new ArrayList<Integer>();
-        pesos=new ArrayList<Integer>();
+        pesos = new ArrayList<Integer>();
     }
 
     public boolean verificaSeExiste(int v) {

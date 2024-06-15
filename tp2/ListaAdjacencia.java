@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 /**
  * lista de adjacência dinâmica, usa-se esta na construção do grafo somente.
@@ -5,14 +8,15 @@
 public class ListaAdjacencia {
     int V;
     int E;
+    int k;
     Vertice[] vertices;
-    final int infinito = 100000;//estratégia de usar como infinito um número inteiro grande o suficiente.
+    public final static int INFINITO = 100000;//estratégia de usar como infinito um número inteiro grande o suficiente.
 
     /**
      * único construtor desta classe, E inicializado em zero, conforme forem
      * adicionadas arestas, E será atualizado.
      * 
-     * @param E
+     * @param V
      */
     ListaAdjacencia(int V) {
         this.V = V;
@@ -34,12 +38,22 @@ public class ListaAdjacencia {
      * @throws Exception
      */
     public void inserirAresta(int v, int w, int peso) throws Exception {
-        if (vertices[v].adjacentes.contains(w)) {
-            //System.out.println("tem um erro neste dataset, a aresta ("+v+", "+w+") já existe com custo "+retornaPeso(v,w)+". E foi solicitada a inserção da aresta aresta ("+v+", "+w+") com custo "+peso+"ignoramos a segunda inserção");
-        } else {
+        if (!vertices[v].adjacentes.contains(w)) {
             inserir(v, w, peso);
-            inserir(w,v,peso);
-            E+=2;
+            inserir(w, v, peso);
+            E += 2;
+        }
+        else {
+            int indexWeightV = vertices[v].adjacentes.indexOf(w),
+                currentWeightV = vertices[v].pesos.get(indexWeightV);
+
+            if (peso < currentWeightV) {
+                System.out.printf("[+] Updated {%d, %d}\n", v, w);
+                vertices[v].pesos.set(indexWeightV, peso);
+
+                int indexWeightW = vertices[w].adjacentes.indexOf(v);
+                vertices[w].pesos.set(indexWeightW, peso);
+            }
         }
     }
 
@@ -49,11 +63,11 @@ public class ListaAdjacencia {
     }
 
     public int retornaPeso(int v, int w) {
-        int resp = infinito;
+        int resp = INFINITO;
         
         try {
-            int indice=vertices[v].adjacentes.indexOf(w);
-            if (indice!=-1) {
+            int indice = vertices[v].adjacentes.indexOf(w);
+            if (indice != -1) {
                 
                 resp = vertices[v].pesos.get(indice);
             }
@@ -62,5 +76,27 @@ public class ListaAdjacencia {
         }
 
         return resp;
+    }
+
+    public static ListaAdjacencia returnAdjacencyListFromFile(String nomeArquivo) throws Exception {
+        Scanner sc = new Scanner(new File(nomeArquivo));
+
+        int V = sc.nextInt(),
+            E = sc.nextInt(),
+            k = sc.nextInt();
+
+        ListaAdjacencia la = new ListaAdjacencia(V);
+        la.k = k;
+
+        int v, w, peso;
+        while (sc.hasNext()) {
+            v = sc.nextInt();
+            w = sc.nextInt();
+            peso = sc.nextInt();
+            la.inserirAresta(v, w, peso);
+        }
+        sc.close();
+
+        return la;
     }
 }
