@@ -12,7 +12,7 @@ public class App {
     ListaAdjacencia la;
 
     public static void main(String[] args) throws Exception {
-        App app = new App(prefixo + "34" + sufixo);
+        App app = new App(prefixo + "1" + sufixo);
         app.fw = new FloydWarshall(app.la);
         app.gon(app.la.V);
 
@@ -71,7 +71,10 @@ public class App {
 
     // }
     // }
-
+/**
+ * método para debug, somente
+ * @return
+ */
     public int contaNumeroDeInfinitos() {
         int resp = 0;
         for (int i = 1; i <= la.V; i++) {
@@ -83,7 +86,13 @@ public class App {
         }
         return resp;
     }
-
+    /**
+     * A partir da matriz de Floyd-Warshall gera um novo centro de modo que diminua a maior distância
+     * @param pertenceAoCentro vetor de inteiros que indica qual centro pertence o vértice.
+     * @param centros vetor com os centros
+     * @param iteradorCentro posicao do último centro preenchido
+     * @return maior raio
+     */
     private int encontraMaiorDistancia(int[] pertenceAoCentro, int[] centros, int iteradorCentro) {
         int maiorRaio = 0;
         int verticeComMaiorRaio = 0;
@@ -114,7 +123,6 @@ public class App {
         int verticeComdistanciaDoisTercos;
         try {
             verticeComdistanciaDoisTercos = encontraVerticeComDistanciaX(centros[iteradorCentro], verticeComMaiorRaio,
-                    maiorRaio / 2,
                     centros);
         } catch (Exception e) {
             verticeComdistanciaDoisTercos = verticeComMaiorRaio;
@@ -163,7 +171,13 @@ public class App {
         
     //     return maiorRaio;
     // }
-
+    /**
+     * verifica qual o maior raio nesta solução.
+    *  @param pertenceAoCentro vetor de inteiros que indica qual centro pertence o vértice.
+     * @param centros vetor com os centros
+     * @param iteradorCentro posicao do último centro preenchido
+     * @return
+     */
     private int recalculaCentro(int[] centros,int[]pertenceAoCentro, int iteradorCentro) {
         int maiorRaio = 0;
         int col;
@@ -189,8 +203,15 @@ public class App {
         return maiorRaio;
 
     }
-
-    private int encontraVerticeComDistanciaX(int verticeCentro, int verticeChegada, int distanciaX, int[] centros)
+    /**
+     * Encontra um vértice que fique no meio da distância em vértices do centro ao vértice mais distante.
+     * @param verticeCentro centro ao qual o vértice com maior distância está associado
+     * @param verticeChegada vértice com maior distância
+     * @param centros //lista de centros até o momento
+     * @return
+     * @throws Exception
+     */
+    private int encontraVerticeComDistanciaX(int verticeCentro, int verticeChegada, int[] centros)
             throws Exception {
         int resp = 0;
         ArrayList<Integer> array = encontraCaminho(verticeCentro, verticeChegada);
@@ -198,7 +219,12 @@ public class App {
         return resp;
 
     }
-
+    /**
+     * 
+     * @param verticeCentro vértice do centro
+     * @param verticeChegada vértice com maior distância ao centro
+     * @return
+     */
     private ArrayList<Integer> encontraCaminho(int verticeCentro, int verticeChegada) {
         int w = verticeChegada;
         ArrayList<Integer> array = new ArrayList<>();
@@ -218,7 +244,12 @@ public class App {
     //     }
     //     return w;
     // }
-
+    /**
+     * Encontra todo o caminho entre o centro e o vértice e retorna a metade da distância em vértices
+     * @param centros lista de centros
+     * @param array array com o caminho do centro até o vértice mais distante
+     * @return
+     */
     private int verificaSeECentro(int[] centros, ArrayList<Integer> array) {
         int pos=array.size()/2;
         int w = array.get(pos);

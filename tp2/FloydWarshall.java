@@ -16,7 +16,10 @@ public class FloydWarshall {
         procuraCaminhos(la);
 
     }
-
+/**
+ * Inicialização de Floyd-Warwall a partir da Lista de Adjacência
+ * @param la
+ */
     private void inicializacao(ListaAdjacencia la) {
         for (int i = 1; i <= la.V; i++) {
             for (int j = 1; j <= la.V; j++) {

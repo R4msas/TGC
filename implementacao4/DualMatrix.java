@@ -116,11 +116,11 @@ public class DualMatrix {
         }
         //
         for (int i = 1; i <= n; i++) {
-            D[i][n + gamma[i].oferta] = -1;// não tenho certeza se está certo
+            D[i][n + gamma[i].oferta] = -1;
         }
         //
         for (int i = 1; i <= m; i++) {
-            D[n + i][n + i] = -1;// não tenho certeza se está certo
+            D[n + i][n + i] = -1;
         }
         // o valor igual a zero já está certo pois o java inicializa a c com 0
 

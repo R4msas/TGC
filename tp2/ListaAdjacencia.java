@@ -24,7 +24,7 @@ public class ListaAdjacencia {
     }
 
     /**
-     * Ao inserir a aresta, verifica se esta já existe, caso exista, ignora. Ao
+     * Ao inserir a aresta, verifica se esta já existe, caso exista, insere a menor. Ao
      * inserir aumenta em um o número de n. Por ser um grafo não direcionado, ao
      * adicionar o adjacente w na lista de v, também adiciona v na lista de w.
      * 
