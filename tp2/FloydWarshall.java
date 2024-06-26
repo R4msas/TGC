@@ -49,8 +49,16 @@ public class FloydWarshall {
             }
         }
     }
-    public void printMatrix(int[][] matrix) {
+    public static void printMatrix(int[][] matrix) {
+        System.out.print("....");
+        for (int j = 1; j < matrix.length; j++) {
+            System.out.printf("%4d", j);
+            
+        }
+        System.out.println();
+
         for (int row = 1; row < matrix.length; row++) {
+            System.out.printf("%4d", row);
             for (int col = 1; col < matrix[row].length; col++) {
                 System.out.printf("%4d", matrix[row][col]);
             }

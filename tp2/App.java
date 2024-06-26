@@ -12,8 +12,10 @@ public class App {
     ListaAdjacencia la;
 
     public static void main(String[] args) throws Exception {
-        App app = new App(prefixo + "1" + sufixo);
+        App app = new App(prefixo + "42" + sufixo);
         app.fw = new FloydWarshall(app.la);
+        // FloydWarshall.printMatrix(app.fw.distancia);
+        // FloydWarshall.printMatrix(app.fw.caminho);
         app.gon(app.la.V);
 
     }
@@ -41,6 +43,7 @@ public class App {
         Random rd = new Random();
         int c = rd.nextInt(V);
         c++;
+        // int c=encontraMaiorRaioERettornaOMeioDoCaminho(V);
         // int inf=contaNumeroDeInfinitos();
         // System.out.println("número de infinitos "+inf);
         centros[1] = c;
@@ -69,7 +72,33 @@ public class App {
     // if(iteradorCentro<=k)
     // {
 
+    // private int encontraMaiorRaioERettornaOMeioDoCaminho(int v) {
+    //     int maior=0;
+    //     int col=0;
+    //     int linha=0;
+    //     for (int i = 1; i <= v; i++) {
+    //         for (int j = 1; j<=v; j++) {
+    //             if(fw.distancia[i][j]>maior)
+    //             {
+    //                 maior=fw.distancia[i][j];
+    //                 linha=i;
+    //                 col=j;
+    //             }
+    //         }
+    //     }
+    //     // int w = col;
+    //     //     ArrayList<Integer> array = new ArrayList<>();
+    //     //     array.add(w);
+    //     //     while (w != linha) {
+    //     //         w = fw.caminho[linha][w];
+    //     //         array.add(w);
+    //     //     }
+    //     // return array.get(array.size()/2);
+    //     return col;
+        
     // }
+
+// }
     // }
 /**
  * método para debug, somente
